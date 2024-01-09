@@ -188,7 +188,7 @@ class GenerateContentView(APIView):
         model = GenerativeModel('gemini-pro')
         question = request.data.get('question', '')
         print(len(question))
-
+        print("this is the github edited")
         s = "1 line definition of " + question
         print(s)
         try:
