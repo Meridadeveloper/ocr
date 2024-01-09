@@ -146,7 +146,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = MEDIA_DIR
 
 
-GOOGLE_APPLICATION_CREDENTIALS ='C:\merida\projects\key.json'
+GOOGLE_APPLICATION_CREDENTIALS ='/workspaces/ocr/key.json'
 
 
 GOOGLE_PROJECT_ID = 'translateapi-409417'

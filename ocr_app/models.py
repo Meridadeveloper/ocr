@@ -1,5 +1,5 @@
 from django.db import models
-from app.forms import *
+# from app.forms import *
 
 # Create your models here.
 class File(models.Model):
