@@ -62,7 +62,8 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    
+    "http://localhost:3000"
+]
 
 ROOT_URLCONF = 'ocr.urls'
 
@@ -150,3 +151,9 @@ GOOGLE_APPLICATION_CREDENTIALS ='/workspaces/ocr/key.json'
 
 GOOGLE_PROJECT_ID = 'translateapi-409417'
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'kalamallarajasekhar256@gmail.com'
+EMAIL_HOST_PASSWORD = 'paxr bigf zlem piru'
+EMAIL_PORT =587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

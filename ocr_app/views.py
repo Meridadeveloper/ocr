@@ -91,7 +91,8 @@ import google.generativeai as genai
 from google.generativeai import configure, GenerativeModel
 import random
 from django.core.mail import send_mail
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 class TranslatePDFAPIView(APIView):
     def get(self, request):
         # Handle GET request logic here
@@ -195,7 +196,7 @@ class GenerateContentView(APIView):
 
         s = "1 line definition of " + question
         print(s)
-        try:
+        try: 
             print("try block executed")
             response = model.generate_content(s)
             generated_text = response.text
@@ -214,7 +215,7 @@ class RegistrationView(APIView):
             # fn = request.POST['firstname']
             # ln = request.POST['lastname']
             # nn = request.POST['nickname']
-            # em = request.POST['email']
+            em = request.data.get("email")      
             # pw = request.POST['password']
             otp = '' 
 
@@ -223,13 +224,21 @@ class RegistrationView(APIView):
                 otp += str(random.randint(0, 9))
 
             print(otp)
+            print(em)
+            n= int(input("enter the otp in string"))
+            if str(n)==str(otp):
+                print("validated")
+            else:
+                print("not validated")
+
             send_mail(
                 "OTP Verification",
                 f"Don't share this OTP with any one. Your OTP for Registration is {otp}",
-                "irayya7777@gmail.com",
-                [],
+                "kalamallarajasekhar256@gmail.com",
+                [em],
                 fail_silently= False,
             )
+            
             return Response(f"otp generated {otp} and your mail sent successfully")
 
             
