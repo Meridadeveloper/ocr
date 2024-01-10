@@ -89,7 +89,8 @@ import io
 import base64
 import google.generativeai as genai
 from google.generativeai import configure, GenerativeModel
-
+import random
+from django.core.mail import send_mail
 
 class TranslatePDFAPIView(APIView):
     def get(self, request):
@@ -100,6 +101,8 @@ class TranslatePDFAPIView(APIView):
     def post(self, request):
         if request.method == 'POST' and 'file' in request.FILES:
             file_pdf = request.FILES['file']
+            # language = request.FILES['language']
+            
             serializer = FileSerializer(data={'file': file_pdf})
             
             if serializer.is_valid():
@@ -138,6 +141,7 @@ class TranslatePDFAPIView(APIView):
                 translated_pdf_base64 = base64.b64encode(translated_pdf_content).decode('utf-8')
                 return Response(translated_pdf_base64)
         return Response("Invalid request", status=status.HTTP_400_BAD_REQUEST)
+    
 
 
 from rest_framework.decorators import api_view
@@ -201,3 +205,32 @@ class GenerateContentView(APIView):
         except Exception as e:
             print("except block", e)
             return Response({'error': str(e)}, status=500)
+
+
+class RegistrationView(APIView):
+
+    def post(self,request):
+        if request.method == 'POST':
+            # fn = request.POST['firstname']
+            # ln = request.POST['lastname']
+            # nn = request.POST['nickname']
+            # em = request.POST['email']
+            # pw = request.POST['password']
+            otp = '' 
+
+            for i in range(4):
+    
+                otp += str(random.randint(0, 9))
+
+            print(otp)
+            send_mail(
+                "OTP Verification",
+                f"Don't share this OTP with any one. Your OTP for Registration is {otp}",
+                "irayya7777@gmail.com",
+                [],
+                fail_silently= False,
+            )
+            return Response(f"otp generated {otp} and your mail sent successfully")
+
+            
+
