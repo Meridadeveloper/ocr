@@ -181,6 +181,7 @@ from rest_framework.decorators import api_view
 #         return Response({'error': str(e)}, status=500)
 
 
+
 class GenerateContentView(APIView):
     def post(self, request):
         api_key = 'AIzaSyBlrcjFCOerZSDkC7YvaHoJ4elXDjaYWg8'
@@ -201,3 +202,56 @@ class GenerateContentView(APIView):
         except Exception as e:
             print("except block", e)
             return Response({'error': str(e)}, status=500)
+
+
+from .serializers import *
+
+from django.shortcuts import get_object_or_404
+
+class RegistrationView(APIView):
+    def get(self, request):
+        studies = userprofile.objects.all()
+        serializer = UserSerializer(studies, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        # Assuming the request contains user registration data
+        serializer = UserSerializer(data=request.data)
+
+        if serializer.is_valid():
+            # Save the user instance
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class StudiesListView(APIView):
+    def get(self, request):
+        studies = studies.objects.all()
+        serializer = StudiesSerializer(studies, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        user_id = request.data.get('id')
+        degree = request.data.get('degree')
+        program = request.data.get("program")
+        year = request.data.get("year")
+        print("userid ",user_id)
+        print(degree)
+        print(program)
+        print(year)
+        user_profile = get_object_or_404(userprofile, id=user_id)
+        # UO = userprofile.objects.get(id=user_id)
+   
+        # Populate the 'user' field in the request data
+        serializer = StudiesSerializer(data={'user': user_profile.id, 'degree': degree, 'program': program, 'year': year})
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        
+        
+       

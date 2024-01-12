@@ -28,5 +28,10 @@ urlpatterns = [
     # path('api/generate_content/',generate_content,name='generate_content'),
 
     path('api/generate_content/',GenerateContentView.as_view(),name='generate_content_class'),
+
+    path('RegistrationView/',RegistrationView.as_view(),name='RegistrationView'),
+    path('StudiesListView/',StudiesListView.as_view(),name='StudiesListView'),
+    
+
     
 ] + static(settings.MEDIA_URL,document_root= settings.MEDIA_ROOT)
